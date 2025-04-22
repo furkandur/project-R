@@ -33,8 +33,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: the_database
-    ports:
-      - 6060:27017
     volumes:
       - mongo_data:/data/db
       - ./server/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro

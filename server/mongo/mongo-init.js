@@ -11,4 +11,4 @@ db.createUser({
 
 db.createCollection('users');
 
-db.users.insert({ name: 'Cerosh' });
+db.users.insert({ username: 'Cerosh' });
