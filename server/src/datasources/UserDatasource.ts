@@ -1,22 +1,17 @@
-import { IUser, User } from "../models/User";
+import { MongoDataSource } from "apollo-datasource-mongodb";
+import User, { IUser, UserDocument } from "../models/User";
 
-interface NewUser {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export class UserService {
+export class UserDatasource extends MongoDataSource<UserDocument> {
   async getAll() {
     try {
-      return await User.find();
+      return await User.find().exec();
     } catch (error) {
       console.error("Error fetching all users: ", error);
       throw error;
     }
   }
 
-  async create(newUser: NewUser) {
+  async create(newUser: IUser) {
     try {
       return await User.create(newUser);
     } catch (error) {

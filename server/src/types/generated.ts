@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { IUser } from '../models/User';
-import { Context } from '../context';
+import { Context } from '../types/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -20,6 +20,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Mutation to create a new User */
   createUser: User;
 };
 
@@ -33,12 +34,14 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String']['output'];
+  /** Query to get all Users */
   users: Array<User>;
 };
 
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   password: Scalars['String']['output'];
   username: Scalars['String']['output'];
 };
@@ -115,6 +118,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -124,6 +128,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  ID: Scalars['ID']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -141,6 +146,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

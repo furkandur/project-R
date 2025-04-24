@@ -3,8 +3,8 @@ import { Resolvers } from "./types/generated";
 export const resolvers: Resolvers = {
   Mutation: {
     // create new User
-    createUser: async (_, { username, email, password }, { services }) => {
-      return services.users.create({
+    createUser: async (_, { username, email, password }, { dataSources }) => {
+      return dataSources.users.create({
         username,
         email,
         password,
@@ -16,8 +16,8 @@ export const resolvers: Resolvers = {
       return "Hello World!";
     },
     // get all Users
-    users: async (_, __, { services }) => {
-      return services.users.getAll();
+    users: async (_, __, { dataSources }) => {
+      return dataSources.users.getAll();
     },
   },
 };

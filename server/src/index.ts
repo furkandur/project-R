@@ -1,38 +1,27 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { UserService } from "./services/UserService";
+import { UserDatasource } from "./datasources/UserDatasource";
 import mongoose from "mongoose";
-import { Context } from "./context";
+import { Context } from "./types/context";
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import { MONGO_URI } from "./utils/constants";
-
-const userService = new UserService();
-
-let apolloServer: ApolloServer<Context> | null = null;
+import User from "./models/User";
 
 const startApolloServer = async () => {
   await mongoose.connect(MONGO_URI);
   console.log("Connected to MongoDB");
-
-  if (apolloServer) {
-    console.log("Stopping existing Apollo Server...");
-    await apolloServer.stop();
-    apolloServer = null;
-  }
 
   const server = new ApolloServer<Context>({
     typeDefs,
     resolvers,
   });
 
-  apolloServer = server;
-
   const { url } = await startStandaloneServer(server, {
     context: async () => {
       return {
-        services: {
-          users: userService,
+        dataSources: {
+          users: new UserDatasource({ modelOrCollection: User }),
         },
       };
     },
