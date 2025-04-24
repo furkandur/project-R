@@ -3,12 +3,23 @@ db.createUser({
   pwd: "the_password",
   roles: [
     {
-      role: 'dbOwner',
-      db: 'the_database'
-    }
-  ]
-})
+      role: "dbOwner",
+      db: "the_database",
+    },
+  ],
+});
 
-db.createCollection('users');
+db.createCollection("users");
 
-db.users.insert({ username: 'Cerosh' });
+db.users.insert([
+  {
+    username: "Cerosh",
+    email: "sceren@gmail.com",
+    password: "cs123",
+  },
+  {
+    username: "Furkito",
+    email: "fdursun@gmail.com",
+    password: "fd123",
+  },
+]);

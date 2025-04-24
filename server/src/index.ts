@@ -5,15 +5,14 @@ import mongoose from "mongoose";
 import { Context } from "./context";
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
+import { MONGO_URI } from "./utils/constants";
 
 const userService = new UserService();
 
 let apolloServer: ApolloServer<Context> | null = null;
 
 const startApolloServer = async () => {
-  const mongoUri =
-    "mongodb://root:example@mongo:27017/the_database?authSource=admin";
-  await mongoose.connect(mongoUri);
+  await mongoose.connect(MONGO_URI);
   console.log("Connected to MongoDB");
 
   if (apolloServer) {
