@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const typeDefs = gql`
+const schema = gql`
   type Mutation {
     "signup to create new User"
     signup(username: String!, email: String!, password: String!): Token
@@ -26,3 +26,5 @@ export const typeDefs = gql`
     value: String!
   }
 `;
+
+export default schema;

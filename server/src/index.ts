@@ -1,23 +1,19 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { UserDatasource } from "./datasources/UserDatasource";
+import { UserDatasource } from "./graphql/User/data";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import { Context } from "./types/context";
-import { typeDefs } from "./schema";
-import { resolvers } from "./resolvers";
+import { Context } from "./graphql/types/context";
 import { JWT_SECRET, MONGO_URI } from "./utils/constants";
-import User, { IUser } from "./models/User";
-import { JWTPayload } from "./types";
+import User, { IUser } from "./graphql/User/model";
+import { JWTPayload } from "./graphql/types";
+import graphqlOptions from "./graphql";
 
 const startApolloServer = async () => {
   await mongoose.connect(MONGO_URI);
   console.log("Connected to MongoDB");
 
-  const server = new ApolloServer<Context>({
-    typeDefs,
-    resolvers,
-  });
+  const server = new ApolloServer<Context>(graphqlOptions);
 
   const { url } = await startStandaloneServer(server, {
     context: async ({ req, res }) => {

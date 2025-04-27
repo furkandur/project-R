@@ -1,8 +1,8 @@
 import { GraphQLError } from "graphql";
-import { Resolvers } from "./types/generated";
 import bcrypt from "bcrypt";
-import { createToken } from "./utils/helpers";
-import { validatePassword } from "./utils/validations";
+import { createToken } from "../../utils/helpers";
+import { validatePassword } from "../../utils/validations";
+import { Resolvers } from "./types";
 
 export const resolvers: Resolvers = {
   Mutation: {

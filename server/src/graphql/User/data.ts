@@ -1,6 +1,6 @@
 import { MongoDataSource } from "apollo-datasource-mongodb";
-import User, { IUser, UserDocument } from "../models/User";
-import { handleError } from "../utils/handleError";
+import User, { IUser, UserDocument } from "./model";
+import { handleError } from "../../utils/handleError";
 
 export class UserDatasource extends MongoDataSource<UserDocument> {
   async getAll() {
