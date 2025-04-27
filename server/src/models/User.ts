@@ -13,6 +13,7 @@ const UserSchema = new Schema<UserDocument>({
     type: String,
     required: true,
     unique: true,
+    minlength: 3,
   },
   email: {
     type: String,

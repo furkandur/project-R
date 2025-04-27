@@ -1,25 +1,43 @@
 import { GraphQLError } from "graphql";
-import jwt from "jsonwebtoken";
 import { Resolvers } from "./types/generated";
-import { JWT_SECRET } from "./utils/constants";
 import bcrypt from "bcrypt";
+import { createToken } from "./utils/helpers";
+import { validatePassword } from "./utils/validations";
 
 export const resolvers: Resolvers = {
   Mutation: {
     // create new User
-    createUser: async (_, { username, email, password }, { dataSources }) => {
+    signup: async (_, { username, email, password }, { dataSources }) => {
+      validatePassword(password);
       const hashedPassword = await bcrypt.hash(password, 10);
-      return dataSources.users.create({
+      const user = await dataSources.users.create({
         username,
         email,
         password: hashedPassword,
       });
+
+      if (user) {
+        const userForToken = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        };
+
+        return createToken(userForToken);
+      }
+      return null;
     },
     login: async (_, { username, password }, { dataSources }) => {
       const user = await dataSources.users.findOne({ username: username });
 
-      if (!user || (await !bcrypt.compare(password, user.password))) {
-        throw new GraphQLError("Wrong credentials", {
+      if (!user) {
+        throw new GraphQLError("User not found", {
+          extensions: { code: "BAD_USER_INPUT" },
+        });
+      }
+      const passwordCorrect = await bcrypt.compare(password, user.password);
+      if (!passwordCorrect) {
+        throw new GraphQLError("Incorrect password", {
           extensions: { code: "BAD_USER_INPUT" },
         });
       }
@@ -29,16 +47,14 @@ export const resolvers: Resolvers = {
         username: user.username,
       };
 
-      return { value: jwt.sign(userForToken, JWT_SECRET) };
+      return createToken(userForToken);
     },
   },
   Query: {
-    hello: () => {
-      return "Hello World!";
-    },
     // get all Users
     users: async (_, __, { dataSources }) => {
-      return dataSources.users.getAll();
+      const users = await dataSources.users.getAll();
+      return users || [];
     },
     // Currently logged user
     me: (_, __, { me }) => me,
