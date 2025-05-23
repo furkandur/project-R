@@ -1,3 +1,7 @@
 export type JWTPayload = {
-  id: String;
+  id: string;
 };
+
+export type CurrentUser = {
+  id: string;
+} | null;

@@ -1,4 +1,5 @@
 import { GraphQLError } from "graphql";
+import { Days } from "../graphql/Location/model";
 
 export const validatePassword = (password: string): boolean => {
   const minLength = 8;
@@ -47,4 +48,8 @@ export const validatePassword = (password: string): boolean => {
     );
   }
   return true;
+};
+
+export const isValidDay = (day: string): boolean => {
+  return Object.values(Days).includes(day as Days);
 };

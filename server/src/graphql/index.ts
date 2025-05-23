@@ -1,8 +1,9 @@
+import { locationResolvers, locationSchema } from "./Location";
 import { userSchema, userResolvers } from "./User";
 
-export const typeDefs = [userSchema];
+export const typeDefs = [userSchema, locationSchema];
 
-const resolvers = [userResolvers];
+const resolvers = [userResolvers, locationResolvers];
 
 const graphqlOptions = {
   typeDefs,

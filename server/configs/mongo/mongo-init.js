@@ -10,6 +10,7 @@ db.createUser({
 });
 
 db.createCollection("users");
+db.createCollection("locations");
 
 db.users.insert([
   {

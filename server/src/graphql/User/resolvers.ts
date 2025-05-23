@@ -56,6 +56,11 @@ export const resolvers: Resolvers = {
       const users = await dataSources.users.getAll();
       return users || [];
     },
+    // get User by ID
+    user: async (_, { id }, { dataSources }) => {
+      const user = await dataSources.users.findOneById(id);
+      return user || null;
+    },
     // Currently logged user
     me: (_, __, { me }) => me,
   },

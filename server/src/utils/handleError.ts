@@ -12,6 +12,7 @@ export const handleError = (error: unknown) => {
       },
     });
   }
+
   if (typeof error === "object" && error !== null && "code" in error) {
     const mongoError = error as MongoServerError;
     if (mongoError.code === 11000) {

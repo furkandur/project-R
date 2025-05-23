@@ -11,8 +11,10 @@ const schema = gql`
   type Query {
     "Query to get all Users"
     users: [User!]!
+    "Query to get User by ID"
+    user(id: ID!): User
     "Currently logged user"
-    me: User
+    me: CurrentUser
   }
 
   type User {
@@ -22,7 +24,14 @@ const schema = gql`
     password: String!
   }
 
+  type CurrentUser {
+    "Currently logged User ID"
+    id: ID!
+  }
+
+  "Token model"
   type Token {
+    "Token for logged User"
     value: String!
   }
 `;

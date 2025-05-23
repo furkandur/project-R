@@ -8,7 +8,17 @@ const config: CodegenConfig = {
       config: {
         contextType: "../types/context#Context",
         mappers: {
-          User: "../models/User#IUser",
+          User: "./model#IUser",
+        },
+      },
+    },
+    "./src/graphql/Location/types.ts": {
+      schema: "./src/graphql/Location/schema.ts",
+      plugins: ["typescript", "typescript-resolvers"],
+      config: {
+        contextType: "../types/context#Context",
+        mappers: {
+          Location: "./model#ILocation",
         },
       },
     },
